@@ -1,17 +1,37 @@
 <table class='table'>
   <tr><%= image_tag user.get_profile_image, size:'100x100' %></tr>
   <tr>
-	  <th>name</th>
+	  <th>名前</th>
 	  <th><%= user.name %></th>
   </tr>
   <tr>
-	  <th>introduction</th>
+	  <th>自己紹介</th>
 	  <th><%= user.introduction %></th>
+  </tr>
+  <tr>
+    <th>フォロー</th>
+    <th>
+      <%= link_to user_followings_path(user) do %>
+        <%= user.followings.count %>
+      <% end %>
+    </th>
+  </tr>
+  <tr>
+    <th>フォロワー</th>
+    <th>
+      <%= link_to user_followers_path(user) do %>
+        <%= user.followers.count %>
+      <% end %>
+    </th>
   </tr>
 </table>
 
 <div class='row'>
-  <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
-    <i class="fas fa-user-cog"></i>
+  <% if current_user != user %> <!--別のユーザのページではフォローボタンを表示する-->
+    <%= render 'relationships/btn', user: user %>
+  <% else %>
+    <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
+      <i class="fas fa-user-cog"></i>
+    <% end %>
   <% end %>
 </div>
